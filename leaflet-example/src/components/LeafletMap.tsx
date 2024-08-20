@@ -45,7 +45,7 @@ function LeafletMap() {
         .marker([position?.latitude, position?.longitude])
         .addTo(map);
 
-      marker.bindPopup('Detta är Jensen YH');
+      marker.bindPopup('Här är du');
 
       map.on('click', (event) => {
         console.log(event);
@@ -57,6 +57,35 @@ function LeafletMap() {
       marker.on('click', () => {
         console.log('Du klickade på Jensen YH');
       });
+    }
+  }, [map]);
+
+  useEffect(() => {
+    if (map) {
+      async function getNearbyStops() {
+        const response = await fetch(
+          `https://api.resrobot.se/v2.1/location.nearbystops?originCoordLat=${
+            position?.latitude
+          }&originCoordLong=${position?.longitude}&format=json&accessId=${
+            import.meta.env.VITE_API_KEY
+          }`
+        );
+        const { stopLocationOrCoordLocation } = await response.json();
+
+        stopLocationOrCoordLocation.forEach((stop: Stop) => {
+          if (map) {
+            const marker = leaflet
+              .marker([stop.StopLocation.lat, stop.StopLocation.lon])
+              .addTo(map);
+
+            marker.bindPopup(`${stop.StopLocation.name}`);
+          }
+
+          // När jag klickar på en hållplats vill jag kunna se tidtabell, hur göra?
+        });
+      }
+
+      getNearbyStops();
     }
   }, [map]);
 

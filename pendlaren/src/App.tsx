@@ -1,17 +1,17 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
-import './App.css';
+import "./App.css";
 
-import StopLoc from './components/StopLoc';
+import StopLoc from "./components/StopLoc";
 
-import { Stop } from './interfaces';
+import { Stop } from "./interfaces";
 
 function App() {
   const [position, setPosition] = useState<GeolocationCoordinates>();
   const [stopLocations, setStopLocations] = useState<Stop[]>([]);
 
   function getPosition() {
-    if ('geolocation' in navigator) {
+    if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
         setPosition(position.coords);
       });
