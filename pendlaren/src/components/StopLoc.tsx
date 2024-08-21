@@ -10,7 +10,7 @@ function StopLoc(props: StopLocProps) {
   const { stop } = props;
   const [departures, setDepartures] = useState([]);
 
-  async function getTimetable() {
+  async function getTimetable() { 
     const response =
       await fetch(`https://api.resrobot.se/v2.1/departureBoard?id=${
         stop.extId
